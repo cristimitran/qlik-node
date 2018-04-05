@@ -6,7 +6,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "enigma.js": "^2.2.0",
-    "ws": "^5.1.0"
+    "ws": "^5.1.0",
+    "xlsx": "^0.12.7"
   },
   "devDependencies": {},
   "scripts": {
