@@ -1,4 +1,5 @@
 const transform = require('./traverse-export')
+var _ = require('lodash');
 
 var data = {
 	"jsonrpc": "2.0",
@@ -423,11 +424,24 @@ var data = {
 	}
 }
 
-//new array to store loop through result
-
-
 //loop through object levels and push to new array
-
-
+//the standard method with 2 arguments
 var x = transform.traverse(data, 2);
 console.log(x);
+
+//the lodash method for binding the 2nd argument only
+var bound = _.bind(transform.traverse, null, _,2);
+console.log(bound(data))
+
+//this also works but leaks arguments
+//see: https://stackoverflow.com/questions/27699493/javascript-partially-applied-function-how-to-bind-only-the-2nd-parameter
+// and see: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#32-leaking-arguments
+
+// function bind_args_from_n(fn, n, ...bound_args) {
+// 	return function (...args) {
+// 		return fn(...args.slice(0,n-1), ...bound_args);
+// 	}
+// }
+
+// var x = bind_args_from_n(transform.traverse, 2, 2);
+// console.log(x(data));
