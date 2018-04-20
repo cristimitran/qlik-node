@@ -1,0 +1,54 @@
+// DOWNLOAD XLSX IN BROWSER
+// app.post('/my-url', function (req, res) {
+//     try {
+//         engine.runIt().then(function (x) {
+//             var ws = XLSX.utils.aoa_to_sheet(x);
+//             XLSX.utils.sheet_to_json(ws, { header: 1 });
+//             var wb = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(wb, ws, "Fields");
+//             res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
+//             res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//             res.end(XLSX.write(wb, {type:"buffer", bookType:"xlsx"}));
+//             //var wbout = XLSX.writeFile(wb, "test.xlsx")
+//             //res.sendFile(wbout)
+//                 // .then(function(){
+//                 //     res.sendFile(wb, function(err) {
+//                 //         console.log('---------- error downloading file: ' + err);
+//                 //     })
+//                 // })
+//         })
+//     } catch (err) {
+//         console.log('OOOOOOO this is the error: ' + err)
+//     }
+// })
+
+
+// A PROMISE IN APP.POST
+// app.post('/', function (req, res) {
+//     new Promise((resolve, reject) => {
+//         data = req.body
+//         resolve(data)
+//     }).then((r) => {
+//         res.render('index', {
+//             test: req.body.name1
+//         })
+//         console.log(r)
+//     }).catch((e) => console.log(e))
+// })
+
+
+//GO BACK TO PAGE AFTER POST
+app.post('/carstest', function(req, res){
+    console.log(data)
+    res.send(`<script>window.location = "/";</script>`);
+	console.log('body: ' + JSON.stringify(req.body));
+})
+
+
+//WRITE SOMETHING WITH HANDLEBARS AFTER POST
+// app.post('/', function(req, res){
+//     res.render('index', {
+//     test: req.body.name1})
+//     data = req.body
+//     console.log(data);
+// })

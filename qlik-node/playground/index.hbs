@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <div id="select_div">
+        <a href="#" id="select_link">Test</a>
+    </div>
+
+    <div class="container">
+        <h2>Form control: select</h2>
+        <p>Go hog wild!</p>
+        <form method="post" action="/cars">
+            <div class="form-group">
+                <label for="sel1">Select list (select one):</label>
+                <select name="option" class="form-control" id="#cars" onchange='if(this.value != 0) { this.form.submit(); }'>
+                    <option value="" disabled selected>Please select</option>
+                    <option value="1">{{host}}</option>
+                    <option value="2">test 2</option>
+                    <option value="3">test 3</option>
+                    <option value="4">test 4</option>
+                </select>
+            </div>
+            <!-->
+            <input type="submit" value="Submit" id="select_link">
+            <!-->
+        </form>
+    </div>
+
+    <div>
+        <form method="post" action="/carstest">
+            <button style="height:75px;width:150px;font-size:32px;">cars</button>
+        </form>
+    </div>
+
+
+    <header>
+        <h1>Qlik-get</h1>
+    </header>
+    <form method="post" action="/my-url">
+        <button style="height:75px;width:150px;font-size:32px;">Bwoah</button>
+    </form>
+    <br/>
+    <form method="post" action="/">
+        <input type="text" name="name1">
+        <input type="submit" value="Submit">
+    </form>
+    {{test}}
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="container">
+        <h2>Form control: select</h2>
+        <p>Go hog wild!</p>
+        <form method="post" action="/drop">
+            <div class="form-group">
+                <label for="sel1">Select list (select one):</label>
+                <select class="form-control" id="sel1" default="2">
+                    <option value="" disabled selected>Please select</option>
+                    <option value="1">{{host}}</option>
+                    <option value="2">test 2</option>
+                    <option value="3">test 3</option>
+                    <option value="4">test 4</option>
+                </select>
+            </div>
+            <!--<input type="submit" value="Submit"><!-->
+        </form>
+    </div>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="script.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#cars').submit(function (event) {
+                event.preventDefault(); // Stops browser from navigating away from page
+                var data = { key: $('#cars').value()}
+                // build a json object or do something with the form, store in data
+                $.post('/addEntry', data, function (resp) {
+                    console.log('success');
+                    // do something when it was successful
+                });
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('#select_link').click(function (e) {
+                e.preventDefault();
+                console.log('select_link clicked');
+
+                /*$.ajax({
+                   dataType: 'jsonp',
+                   data: "data=yeah",						
+                   jsonp: 'callback',
+                   url: 'http://localhost:3000/endpoint?callback=?',						
+                   success: function(data) {
+                       console.log('success');
+                       console.log(JSON.stringify(data));
+                   }
+               });*/
+                var data = {};
+                data.title = "title";
+                data.message = "message";
+
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: 'http://localhost:3000/endpoint',
+                    success: function (data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                });
+                /*$.ajax('http://localhost:3000/endpoint', {
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function() { console.log('success');},
+                        error  : function() { console.log('error');}
+                });*/
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,7 +1,9 @@
 var out = [];
-var level = 2;
+var traverseTwoLevels = function (args) {
+	return traverse(args, 2)
+}
 
-var traverse = (x) => {
+var traverse = (x, level) => {
     if (isArray(x)) {
         traverseArray(x, level);
     } else if ((typeof x === 'object') && (x !== null)) {
@@ -37,10 +39,9 @@ var traverseObject = (obj, level) => {
     }
 };
 
-
 var print = (x) => {
     console.log(x)
 }
 
 
-module.exports = { traverse, print };
+module.exports = { traverseTwoLevels, traverse, print };

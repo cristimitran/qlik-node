@@ -426,12 +426,12 @@ var data = {
 
 //loop through object levels and push to new array
 //the standard method with 2 arguments
-var x = transform.traverse(data, 2);
-console.log(x);
+// var x = transform.traverse(data, 2);
+// console.log(x);
 
 //the lodash method for binding the 2nd argument only
-var bound = _.bind(transform.traverse, null, _,2);
-console.log(bound(data))
+// var bound = _.bind(transform.traverse, null, _,2);
+// console.log(bound(data))
 
 //this also works but leaks arguments
 //see: https://stackoverflow.com/questions/27699493/javascript-partially-applied-function-how-to-bind-only-the-2nd-parameter
@@ -443,5 +443,8 @@ console.log(bound(data))
 // 	}
 // }
 
-// var x = bind_args_from_n(transform.traverse, 2, 2);
-// console.log(x(data));
+var x = function (args) {
+	return transform.traverse(args, 2)
+}
+
+console.log(x(data));

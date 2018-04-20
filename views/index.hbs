@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <div id="select_div">
+        <a href="#" id="select_link">Test</a>
+    </div>
+
+    <div>
+        <a href="#" id="select_link2">tst</a>
+         </div>
+
+    <div class="container">
+        <h2>Form control: select</h2>
+        <form>
+            <div class="form-group">
+                <label for="sel1">Select list (select one):</label>
+                <select name="option" class="form-control" id="cars">
+                    <option value="" disabled selected>Please select</option>
+                    <option value="1">test 1</option>
+                    <option value="2">test 2</option>
+                    <option value="3">test 3</option>
+                    <option value="4">test 4</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('#cars').change(function (e) {
+                e.preventDefault();
+                console.log('select_link clicked');
+
+                /*$.ajax({
+                   dataType: 'jsonp',
+                   data: "data=yeah",						
+                   jsonp: 'callback',
+                   url: 'http://localhost:3000/endpoint?callback=?',						
+                   success: function(data) {
+                       console.log('success');
+                       console.log(JSON.stringify(data));
+                   }
+               });*/
+                var data = {} 
+                data.name = $("#cars option:selected").text();
+                console.log(data);
+
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: 'http://localhost:3000/testpoint',
+                    success: function (data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                });
+                /*$.ajax('http://localhost:3000/endpoint', {
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function() { console.log('success');},
+                        error  : function() { console.log('error');}
+                });*/
+            });
+        });
+    </script>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('#select_link2').click(function (e) {
+                e.preventDefault();
+                console.log('select_link clicked');
+
+                /*$.ajax({
+                   dataType: 'jsonp',
+                   data: "data=yeah",						
+                   jsonp: 'callback',
+                   url: 'http://localhost:3000/endpoint?callback=?',						
+                   success: function(data) {
+                       console.log('success');
+                       console.log(JSON.stringify(data));
+                   }
+               });*/
+                var data = {};
+                data.title = "title";
+                data.message = "message";
+
+                $.ajax({
+                    type: 'POST',
+                    data: null,
+                    contentType: 'application/json',
+                    url: 'http://localhost:3000/endpoint',
+                    success: function (data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                });
+                /*$.ajax('http://localhost:3000/endpoint', {
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function() { console.log('success');},
+                        error  : function() { console.log('error');}
+                });*/
+            });
+        });
+    </script>
+
+</body>
+
+</html>

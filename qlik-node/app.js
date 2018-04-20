@@ -16,7 +16,7 @@ const session = enigma.create({
 });
 
 //object to send
-var sendObject = {
+const sendObject = {
     qInfo: {
         qType: "FieldList"
     },
@@ -30,6 +30,15 @@ var sendObject = {
     }
 };
 
+//object for app list
+const appList = {
+    "handle": -1,
+    "method": "GetDocList",
+    "params": [],
+    "outKey": -1,
+    "id": 1
+}
+
 
 
 //function to get requested object from qlik engine api
@@ -41,8 +50,8 @@ var getEngine = function () {
         .then((doc) => doc
             .createObject(sendObject)
             .then(object => object.getLayout())
-            .then((layout) => { data = layout; })/*layout) => {data = layout; return; } */
-            .then(() => session.close()))
+            .then((layout) => { data = layout; }))/*layout) => {data = layout; return; } */
+        //.then(() => session.close()))
         .catch((error) => {
             console.log('Session: Failed to open socket:', error);
             process.exit(1);
@@ -50,10 +59,31 @@ var getEngine = function () {
 
 };
 
+// session.open().then((global) => global.getDocList())
+//     .then((x) => console.log(x))
+//     .then(() => session.close())
+//     .catch((error) => {
+//         console.log(error);
+//         process.exit(1);
+//     });
+
+
+var runIt = function () {
+    return getEngine()
+        .then(function () { return transform.traverse(data) })
+        //.then(function (x) { return toExcel.output(x) })
+        //.then(() => session.close())
+        .catch((reason) => {
+            console.log('Handle rejected promise (' + reason + ') here.')
+        })
+}
+
 //run promise chain to export field list to excel
-getEngine()
-    .then(function () { return transform.traverse(data) })
-    .then(function (x) { return toExcel.output(x) })
-    .catch((reason) => {
-        console.log('Handle rejected promise (' + reason + ') here.');
-    });
+// getEngine()
+//     .then(function () { return transform.traverseTwoLevels(data) })
+//     .then(function (x) { return toExcel.output(x) })
+//     .catch((reason) => {
+//         console.log('Handle rejected promise (' + reason + ') here.');
+//     });
+
+module.exports = { runIt }
