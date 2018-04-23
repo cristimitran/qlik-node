@@ -1,6 +1,6 @@
 var out = [];
-var traverseTwoLevels = function (args) {
-	return traverse(args, 2)
+function twoLevels(args) {
+    return traverse(args, 2)
 }
 
 var traverse = (x, level) => {
@@ -37,11 +37,26 @@ var traverseObject = (obj, level) => {
             traverse(obj[key], level + "    ");
         }
     }
-};
+}
 
-var print = (x) => {
-    console.log(x)
+//parse applist object from engine 
+function appList(r, y) {
+    for (key in r) {
+        if (r.hasOwnProperty(key)) {
+            y[r[key].qTitle] = {
+                DocName: r[key].qDocName,
+                DocId: r[key].qDocId
+            }
+        }
+        if (key == r.length - 1) {
+            //console.log(y);
+            return y
+        }
+    }
 }
 
 
-module.exports = { traverseTwoLevels, traverse, print };
+module.exports = {
+    twoLevels,
+    appList
+}

@@ -6,31 +6,25 @@
 </head>
 
 <body>
-    <div id="select_div">
-        <a href="#" id="select_link">Test</a>
-    </div>
 
-    <div>
-        <a href="#" id="select_link2">tst</a>
-         </div>
 
-    <div class="container">
-        <h2>Form control: select</h2>
+    <div style="padding-left: 50px; float: left" ;>
+        <h2>Select app</h2>
         <form>
             <div class="form-group">
-                <label for="sel1">Select list (select one):</label>
-                <select name="option" class="form-control" id="cars">
-                    <option value="" disabled selected>Please select</option>
-                    <option value="1">test 1</option>
-                    <option value="2">test 2</option>
-                    <option value="3">test 3</option>
-                    <option value="4">test 4</option>
-                </select>
+                {{{slide}}}
             </div>
         </form>
     </div>
 
-    
+
+    <div style="padding-left: 80px; padding-top: 60px; float: left" ;>
+        <a href="#" id="select_link2">
+            <button>Test</button>
+        </a>
+    </div>
+
+
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -40,7 +34,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $('#cars').change(function (e) {
+            $('#app').change(function (e) {
                 e.preventDefault();
                 console.log('select_link clicked');
 
@@ -54,8 +48,8 @@
                        console.log(JSON.stringify(data));
                    }
                });*/
-                var data = {} 
-                data.name = $("#cars option:selected").text();
+                var data = {}
+                data.name = $("#app option:selected").text();
                 console.log(data);
 
                 $.ajax({

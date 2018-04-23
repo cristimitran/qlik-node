@@ -1,89 +1,94 @@
 //node libraries
-const enigma = require('enigma.js');
-const WebSocket = require('ws');
-const bluebird = require('bluebird');
-const schema = require('enigma.js/schemas/12.20.0.json');
+const enigma = require('enigma.js')
+const WebSocket = require('ws')
+const bluebird = require('bluebird')
+const schema = require('enigma.js/schemas/12.20.0.json')
 
 //custom libraries
-const transform = require('./traverse-export');
-const toExcel = require('./xlsx-export');
+const traverse = require('./traverse-export')
+const toExcel = require('./xlsx-export')
+const requestObjects = require('./requestObjects')
 
 // function to create a new session:
-const session = enigma.create({
+let session = enigma.create({
     schema,
     url: 'ws://localhost:4848/app/engineData',
     createSocket: url => new WebSocket(url),
-});
+})
 
-//object to send
-const sendObject = {
-    qInfo: {
-        qType: "FieldList"
-    },
-    qFieldListDef: {
-        qShowSystem: false,
-        qShowHidden: false,
-        qShowDerivedFields: true,
-        qShowSemantic: true,
-        qShowSrcTables: true,
-        qShowImplicit: true
-    }
-};
+//temp appName
+let appName = "Helpdesk Management.qvf"
 
-//object for app list
-const appList = {
-    "handle": -1,
-    "method": "GetDocList",
-    "params": [],
-    "outKey": -1,
-    "id": 1
+
+
+//parse app list from request
+
+
+//request and parse app list
+function getAppList() {
+    return new Promise((resolve, reject) => {
+        let docs = {}
+        session
+            .open()
+            .then((g) => {
+                console.log('We are connected!')
+                //console.log(g);
+                return g.getDocList();
+            })
+            //.then((g) => g.createObject(appList))
+            .then((r) => {
+                traverse.appList(r, docs)
+                resolve(docs)
+            })
+            .catch((error) => console.log(error))
+    })
 }
 
-
-
-//function to get requested object from qlik engine api
-var getEngine = function () {
+function makeRequest(appName, requestedObject) {
     return session
         .open()
-        .then((global) => global.openDoc('Helpdesk Management.qvf'))
-        //.then(result => console.log(result))}
+        .then((global) => global.openDoc(appName))
         .then((doc) => doc
-            .createObject(sendObject)
+            .createObject(requestedObject)
             .then(object => object.getLayout())
-            .then((layout) => { data = layout; }))/*layout) => {data = layout; return; } */
-        //.then(() => session.close()))
+            .then((layout) => { data = layout }))
+        .then(() => session.close())
         .catch((error) => {
-            console.log('Session: Failed to open socket:', error);
-            process.exit(1);
-        });
-
-};
-
-// session.open().then((global) => global.getDocList())
-//     .then((x) => console.log(x))
-//     .then(() => session.close())
-//     .catch((error) => {
-//         console.log(error);
-//         process.exit(1);
-//     });
-
-
-var runIt = function () {
-    return getEngine()
-        .then(function () { return transform.traverse(data) })
-        //.then(function (x) { return toExcel.output(x) })
-        //.then(() => session.close())
-        .catch((reason) => {
-            console.log('Handle rejected promise (' + reason + ') here.')
+            console.log(error)
+            process.exit(1)
         })
 }
 
-//run promise chain to export field list to excel
-// getEngine()
-//     .then(function () { return transform.traverseTwoLevels(data) })
-//     .then(function (x) { return toExcel.output(x) })
-//     .catch((reason) => {
-//         console.log('Handle rejected promise (' + reason + ') here.');
-//     });
+function test (appName, requestedObject) {
+    makeRequest(appName, requestedObject)
+    .then(function () { return traverse.twoLevels(data) })
+        .then(function (x) { return toExcel.output(x) })
+        .then(console.log("success"))
+        .catch((reason) => {
+            console.log('Handle rejected promise (' + reason + ') here.')
+            process.exit(1)
+        })
+}
 
-module.exports = { runIt }
+//test(appName, requestObjects.fieldList)
+
+
+
+function closeTest() {
+    return session
+    .open()
+    .then((global) => global.openDoc('Helpdesk Management.qvf'))
+    //.then(() => console.log(session))
+    .then(() => session.close())
+    //.then(() => console.log(session))
+    .then(() => {session.open()})
+    .then(() => console.log(session))
+}
+
+closeTest()
+
+module.exports = {
+    getAppList
+}
+
+
