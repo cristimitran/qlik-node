@@ -1,42 +1,119 @@
-var out = [];
-function twoLevels(args) {
-    return traverse(args, 2)
+let out = []
+
+//for parsing the variables list
+function parseVariables(args) {
+    console.log(args.qVariableList.qItems)
+     return loopVariables(args.qVariableList.qItems)
+ }
+ 
+ function loopVariables(x) {
+     for(key in x) {
+         out.push([[x[key].qName],[x[key].qDefinition]]);
+     }
+     return out
+ }
+
+//for parsing the sheet list
+function parseSheet(args) {
+    return loopList(args.qAppObjectList.qItems)
 }
 
-var traverse = (x, level) => {
-    if (isArray(x)) {
-        traverseArray(x, level);
-    } else if ((typeof x === 'object') && (x !== null)) {
-        traverseObject(x, level);
-    } else {
-        //console.log(x);  //values
+
+function loopList(x) {
+    for(key in x) {
+        out.push([x[key].qMeta.title]);
     }
-    return out;
-};
+    return out
+}
 
-var isArray = (o) => {
-    return Object.prototype.toString.call(o) === '[object Array]';
-};
 
-var traverseArray = (arr, level) => {
-    //console.log(level + "<array>");
-    arr.forEach(function (x) {
-        traverse(x, level + "  ");
-    });
-};
+function parseQName(args) {
+    return traverseForQName(args, 2)
+}
 
-var traverseObject = (obj, level) => {
-    //console.log(level + "<object>");
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            if (key === "qName") {
-                out.push([obj[key]]);
-                //console.log(obj[key]);
+function traverseForQName(x, level) {
+    var traverse = (x, level) => {
+        if (isArray(x)) {
+            traverseArray(x, level);
+        } else if ((typeof x === 'object') && (x !== null)) {
+            traverseObject(x, level);
+        } else {
+            //console.log(x);  //values
+        }
+        return out;
+    };
+
+    var isArray = (o) => {
+        return Object.prototype.toString.call(o) === '[object Array]';
+    };
+
+    var traverseArray = (arr, level) => {
+        //console.log(level + "<array>");
+        arr.forEach(function (x) {
+            traverse(x, level + "  ");
+        });
+    };
+
+    var traverseObject = (obj, level) => {
+        //console.log(level + "<object>");
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (key === "qName") {
+                    out.push([obj[key]]);
+                    //console.log(obj[key]);
+                }
+                //console.log(key + " " + obj[key]);
+                traverse(obj[key], level + "    ");
             }
-            //console.log(key + " " + obj[key]);
-            traverse(obj[key], level + "    ");
         }
     }
+
+    return traverse(x, level)
+
+}
+
+
+function parseTitle(args) {
+    return traverseForTitle(args, 2)
+}
+
+function traverseForTitle(x, level) {
+    var traverse = (x, level) => {
+        if (isArray(x)) {
+            traverseArray(x, level);
+        } else if ((typeof x === 'object') && (x !== null)) {
+            traverseObject(x, level);
+        } else {
+            //console.log(x);  //values
+        }
+        return out;
+    };
+
+    var isArray = (o) => {
+        return Object.prototype.toString.call(o) === '[object Array]';
+    };
+
+    var traverseArray = (arr, level) => {
+        //console.log(level + "<array>");
+        arr.forEach(function (x) {
+            traverse(x, level + "  ");
+        });
+    };
+
+    var traverseObject = (obj, level) => {
+        //console.log(level + "<object>");
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (key === "title" && obj['title'] != "") {
+                    out.push([obj[key]]);
+                    //console.log(obj[key]);
+                }
+                //console.log(key + " " + obj[key]);
+                traverse(obj[key], level + "    ");
+            }
+        }
+    }
+    return traverse(x, level)
 }
 
 //parse applist object from engine 
@@ -57,6 +134,9 @@ function appList(r, y) {
 
 
 module.exports = {
-    twoLevels,
+    parseQName,
+    parseTitle,
+    parseSheet,
+    parseVariables,
     appList
 }

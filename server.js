@@ -3,7 +3,7 @@ const express = require('express')
 const hbs = require('hbs')
 const fs = require('fs')
 const bodyParser = require('body-parser')
-const engine = require('./qlik-node/app.js')
+const engine = require('./qlik-node/engine-methods')
 const XLSX = require('xlsx')
 
 //config server

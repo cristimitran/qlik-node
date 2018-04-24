@@ -13,7 +13,7 @@ var wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, ws, "Fields");
 
 XLSX.writeFile(wb, "test.xlsx");
-return console.log("Success");
+//return console.log("Success");
 }
 
 module.exports = {output};
