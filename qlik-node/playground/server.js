@@ -79,28 +79,28 @@ app.post('/carstest', function(req, res){
 //     }).catch((e) => console.log(e))
 // })
 
-// app.post('/my-url', function (req, res) {
-//     try {
-//         engine.runIt().then(function (x) {
-//             var ws = XLSX.utils.aoa_to_sheet(x);
-//             XLSX.utils.sheet_to_json(ws, { header: 1 });
-//             var wb = XLSX.utils.book_new();
-//             XLSX.utils.book_append_sheet(wb, ws, "Fields");
-//             res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
-//             res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//             res.end(XLSX.write(wb, {type:"buffer", bookType:"xlsx"}));
-//             //var wbout = XLSX.writeFile(wb, "test.xlsx")
-//             //res.sendFile(wbout)
-//                 // .then(function(){
-//                 //     res.sendFile(wb, function(err) {
-//                 //         console.log('---------- error downloading file: ' + err);
-//                 //     })
-//                 // })
-//         })
-//     } catch (err) {
-//         console.log('OOOOOOO this is the error: ' + err)
-//     }
-// })
+app.post('/my-url', function (req, res) {
+    try {
+        engine.runIt().then(function (x) {
+            var ws = XLSX.utils.aoa_to_sheet(x);
+            XLSX.utils.sheet_to_json(ws, { header: 1 });
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Fields");
+            res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
+            res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.end(XLSX.write(wb, {type:"buffer", bookType:"xlsx"}));
+            //var wbout = XLSX.writeFile(wb, "test.xlsx")
+            //res.sendFile(wbout)
+                // .then(function(){
+                //     res.sendFile(wb, function(err) {
+                //         console.log('---------- error downloading file: ' + err);
+                //     })
+                // })
+        })
+    } catch (err) {
+        console.log('OOOOOOO this is the error: ' + err)
+    }
+})
 
 // app.post('/drop', function(req, res){
 

@@ -54,9 +54,30 @@ function getAppList() {
     }).catch((error) => console.log(error))
 }
 
-//s("Helpdesk Management.qvf").then(() => s("Helpdesk Management.qvf"))
-
 //field list
+
+function callMethod (method, appName) {
+    return s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => {return x})
+        //.then((x) => toExcel.output(x))
+        //.then(console.log("success"))
+        .catch((reason) => {
+            console.log('Handle rejected promise (' + reason + ') here.')
+            process.exit(1)
+        })
+}
+// function callMethod (method, appName) {
+//     switch (method) {
+//         case 'Field list': s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => {return x})
+//         //.then((x) => toExcel.output(x))
+//         //.then(console.log("success"))
+//         .catch((reason) => {
+//             console.log('Handle rejected promise (' + reason + ') here.')
+//             process.exit(1)
+//         })
+//         break
+//     }
+// }
+
 // s("Helpdesk Management.qvf", requestObjects.fieldList).then(() => traverse.parseQName(data))
 // .then((x) => toExcel.output(x))
 // .then(console.log("success"))
@@ -64,6 +85,10 @@ function getAppList() {
 //     console.log('Handle rejected promise (' + reason + ') here.')
 //     process.exit(1)
 // })
+
+//s("Helpdesk Management.qvf").then(() => s("Helpdesk Management.qvf"))
+
+
 
 //dimension list
 // s("Helpdesk Management.qvf", requestObjects.dimensionList).then(() => traverse.parseQName(data))
@@ -103,5 +128,6 @@ function getAppList() {
 // })
 
 module.exports = {
-    getAppList
+    getAppList, 
+    callMethod
 }
