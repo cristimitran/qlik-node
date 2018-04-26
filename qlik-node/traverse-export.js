@@ -1,9 +1,12 @@
 let out = []
 
+function clearOut () {
+    out = []
+}
+
 //for parsing the variables list
 function parseVariables(args) {
-    console.log(args.qVariableList.qItems)
-     return loopVariables(args.qVariableList.qItems)
+    return loopVariables(args.qVariableList.qItems)
  }
  
  function loopVariables(x) {
@@ -138,5 +141,6 @@ module.exports = {
     parseTitle,
     parseSheet,
     parseVariables,
-    appList
+    appList,
+    clearOut
 }

@@ -11,6 +11,8 @@ XLSX.utils.sheet_to_json(ws, {header:1});
 var wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, ws, "Fields");
 
+return wb
+
 //XLSX.writeFile(wb, "test.xlsx");
 //return console.log("Success");
 

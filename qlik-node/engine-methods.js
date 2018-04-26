@@ -56,27 +56,26 @@ function getAppList() {
 
 //field list
 
-function callMethod (method, appName) {
-    return s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => {return x})
-        //.then((x) => toExcel.output(x))
-        //.then(console.log("success"))
-        .catch((reason) => {
-            console.log('Handle rejected promise (' + reason + ') here.')
-            process.exit(1)
-        })
-}
 // function callMethod (method, appName) {
-//     switch (method) {
-//         case 'Field list': s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => {return x})
+//     return s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => {return x})
 //         //.then((x) => toExcel.output(x))
 //         //.then(console.log("success"))
 //         .catch((reason) => {
 //             console.log('Handle rejected promise (' + reason + ') here.')
 //             process.exit(1)
 //         })
-//         break
-//     }
 // }
+
+
+function callMethod (method, appName) {
+    switch (method) {
+        case 'Field list': return s(appName , requestObjects.fieldList).then(() => traverse.parseQName(data)).then((x) => toExcel.output(x))
+        case 'Dimension list': return s(appName , requestObjects.dimensionList).then(() => traverse.parseQName(data)).then((x) => toExcel.output(x))     
+        case 'Measure list': return s(appName , requestObjects.measureList).then(() => traverse.parseTitle(data)).then((x) => toExcel.output(x))
+        case 'Sheet list': return s(appName , requestObjects.sheetList).then(() => traverse.parseSheet(data)).then((x) => toExcel.output(x))
+        case 'Variables list': return s(appName , requestObjects.variablesList).then(() => traverse.parseVariables(data)).then((x) => toExcel.output(x))
+    }
+}
 
 // s("Helpdesk Management.qvf", requestObjects.fieldList).then(() => traverse.parseQName(data))
 // .then((x) => toExcel.output(x))

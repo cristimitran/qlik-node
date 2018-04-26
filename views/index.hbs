@@ -3,58 +3,84 @@
 
 <head>
     <title>test</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg {
+            /* The image used */
+            background-image: url("/images/clouds.jpg");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>
-
-    <p id="demo"></p>
-    <div style="padding-left: 50px; float: left" ;>
-        <h2>Select app</h2>
-        <form>
-            <div class="form-group">
-                {{{appSelect}}}
+    <div class="bg">
+        <!--<div class="container">
+            <div class="card">
+                <p id="demo"></p>
             </div>
-        </form>
+        </div>-->
+
+        <div class="card-body" id="app" style="padding-left: 50px; float: left" ;>
+            <h2>Select app</h2>
+            <form>
+                <div>
+                    {{{appSelect}}}
+                </div>
+            </form>
+        </div>
+
+
+        <!--<div style="padding-left: 80px; padding-top: 60px; float: left" ;>
+            <a href="#" id="select_link2">
+                <button>Test</button>
+            </a>
+        </div>-->
+
+
+        <div style="padding-left: 50px; padding-top: 5px; clear:both">
+            <h2>Get</h2>
+            <form>
+                <div>
+                    <select class="form-control" id="method" style="width:250px; background-color:#f1edff">
+                        <option value="" disabled selected>Please select</option>
+                        <option value="1">Field list</option>
+                        <option value="2">Dimension list</option>
+                        <option value="3">Measure list</option>
+                        <option value="4">Sheet list</option>
+                        <option value="4">Variables list</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <div style="padding-left: 50px; padding-top: 35px; clear:both;">
+            <form method="post" action="/export">
+                <button id="exportCheck" style="height:50px;width:150px;font-size:24px; ">Export</button>
+            </form>
+        </div>
+
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">$.getScript("/scripts/script.js")</script>
+
     </div>
-
-
-    <div style="padding-left: 80px; padding-top: 60px; float: left" ;>
-        <a href="#" id="select_link2">
-            <button>Test</button>
-        </a>
-    </div>
-
-
-    <div style="padding-left: 50px; clear:both">
-        <h2>Get</h2>
-        <form>
-            <div class="form-group">
-                <select id="method">
-                    <option value="" disabled selected>Please select</option>
-                    <option value="1">Field list</option>
-                    <option value="2">test 2</option>
-                    <option value="3">test 3</option>
-                    <option value="4">test 4</option>
-                </select>
-            </div>
-        </form>
-    </div>
-
-    <div style="padding-left: 50px; padding-top: 25px; clear:both">
-        <form method="post" action="/export">
-            <button id ="exportCheck"style="height:75px;width:150px;font-size:32px;">Export</button>
-        </form>
-    </div>
-
-
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript">$.getScript("/scripts/script.js")</script>
-
-
 </body>
 
 </html>
