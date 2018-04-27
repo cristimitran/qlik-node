@@ -52,3 +52,42 @@ app.post('/carstest', function(req, res){
 //     data = req.body
 //     console.log(data);
 // })
+
+
+//error with query strings
+return res.redirect('/?error=denied')
+
+<script type="text/javascript">
+            function check(){
+            var queryString = location.search;
+            var params = queryString.substring(1).split('&');
+            for (var i = 0; i < params.length; i++) {
+                var pair = params[i].split('=');
+                if (decodeURIComponent(pair[0]) == 'error' && pair[1])
+                    return alert('no data');
+            }
+            return false;
+            }
+            check()
+        </script>
+
+
+//get app list on startup and populate slider
+// engine.getAppList()
+//     .then((items) => {
+//         let slider = `<select id="app" class="form-control" style="width:250px; background-color:#f1edff"><option value="" disabled selected>Please select</option>`;
+//         for (key in items) {
+//             if (items.hasOwnProperty(key)) {
+//                 slider = slider + `<option value="${key}">${key}</option>`
+//             }
+//         }
+//         slider = slider + `</select>`
+//         app.get('/', (req, res) => {
+//             res.render('index', {
+//                 pageTitle: 'Home',
+//                 welcomeMessage: 'Home',
+//                 appSelect: slider
+//             })
+//         })
+//     })
+//     .catch((error) => console.log(error))

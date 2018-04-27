@@ -1,3 +1,4 @@
+
 //clusters
 var cluster = require('cluster');
 if (cluster.isMaster) {
@@ -36,26 +37,26 @@ else {
 
     //global state variable
     let state = {}
+    let slider
+
+    function startUp() {
+        return engine.getAppList()
+            .then((items) => {
+                slider = `<select id="app" class="form-control" style="width:250px; background-color:#f1edff"><option value="" disabled selected>Please select</option>`;
+                for (key in items) {
+                    if (items.hasOwnProperty(key)) {
+                        slider = slider + `<option value="${key}">${key}</option>`
+                    }
+                }
+                slider = slider + `</select>`
+                return slider
+                    ;
+            })
+    }
+
 
     //get app list on start-up
-    engine.getAppList()
-        .then((items) => {
-            let slider = `<select id="app" class="form-control" style="width:250px; background-color:#f1edff"><option value="" disabled selected>Please select</option>`;
-            for (key in items) {
-                if (items.hasOwnProperty(key)) {
-                    slider = slider + `<option value="${key}">${key}</option>`
-                }
-            }
-            slider = slider + `</select>`
-            app.get('/', (req, res) => {
-                res.render('index', {
-                    pageTitle: 'Home',
-                    welcomeMessage: 'Home',
-                    appSelect: slider
-                })
-            })
-        })
-        .catch((error) => console.log(error))
+    startUp().then(() => app.get('/', (req, res) => { res.render('index', { pageTitle: 'Home', welcomeMessage: 'Home', appSelect: slider }) }))
 
     //test button for global state
     app.post('/endpoint', function (req, res) {
@@ -71,14 +72,27 @@ else {
         res.send(req.body);
     })
 
-    app.post('/export', function (req, res) {
+    app.post('/', function (req, res) {
         console.log(`exporting for ${state.appName} and ${state.method}`)
         if (state.appName != undefined && state.method != undefined) {
             engine.callMethod(state.method, state.appName).then((x) => {
-                traverse.clearOut()
-                res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
-                res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                res.end(XLSX.write(x, { type: "buffer", bookType: "xlsx" }));
+                if (Object.keys(x.Sheets.Fields).length === 0) {
+                    console.log('no data')
+                    startUp().then(() => {
+                        return res.render('index', {
+                            pageTitle: 'Home',
+                            welcomeMessage: 'Home',
+                            appSelect: slider,
+                            error: `<script type="text/javascript">function error(){ return alert('no data')} error()</script>`
+                        })
+                    })
+                        .catch((error) => console.log(error))
+                } else {
+                    traverse.clearOut()
+                    res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
+                    res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    res.end(XLSX.write(x, { type: "buffer", bookType: "xlsx" }));
+                }
             })
                 .catch((error) => console.log(error))
         } else {
