@@ -42,7 +42,7 @@ else {
     function startUp() {
         return engine.getAppList()
             .then((items) => {
-                slider = `<select id="app" class="form-control" style="width:250px; background-color:#f1edff"><option value="" disabled selected>Please select</option>`;
+                slider = `<select id="app" class="form-control" style="width:250px; background-color:#f7f4ff"><option value="" disabled selected>Please select</option>`;
                 for (key in items) {
                     if (items.hasOwnProperty(key)) {
                         slider = slider + `<option value="${key}">${key}</option>`

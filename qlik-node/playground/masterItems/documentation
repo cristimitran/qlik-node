@@ -1,0 +1,42 @@
+
+//workflow
+1. import items to be created into newList
+2. getAllInfos list from server	
+3. compare getAllInfos to newList by qId
+	3.1 if item qId already exists, item goes into updateList
+	3.2 if item qId doesn't exist, item goes into createList
+4. update all items in updateList
+5. create all items in createList
+
+//dimensions
+https://help.qlik.com/en-US/sense-developer/November2017/Subsystems/Mashups/Content/Create/Visualizations/dimensions.htm
+
+{
+            "qInfo": {
+                "qId" : "101",                  	//give it a new id
+				"qType": "dimension"
+			},
+			"qDim": {
+				"qGrouping": "N",               	//set to H for drill-down
+				"qFieldDefs": [
+					"Date.autoCalendar.Year"  		//composition fields
+				],
+				"qFieldLabels": [
+					"Year2"                   		//displayed on chart labels; reverts to qFieldDefs value if not set
+				],
+				"title": "Year3"              		//displayed on right hand panel; null if not set
+			},
+			"qMetaDef": {
+				"title": "Year4",             		//name of dimension in menu; it does not appear in list if not set (but it does exist in app somehow), REALLY NEEED THIS
+				"description": "some shit here", 	//description
+				"tags": ['no']                      //tags
+			},
+			"validity": {
+				"description": true,
+				"name": true,
+				"selectedFields": true
+			},
+			"selectedFields": [
+				"Year"                              //no idea
+			]
+        }

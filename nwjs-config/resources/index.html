@@ -4,43 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <style>
-        .loader {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
-            width: 150px;
-            height: 150px;
-            margin: -75px 0 0 -75px;
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid blue;
-            border-bottom: 16px solid blue;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 3s linear infinite;
-            animation: spin 3s linear infinite;
-        }
-
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../public/css/style.css">
 
     <!--<script>
         //var guiWin = require('nw.gui');
@@ -56,10 +20,25 @@
 <!--______________________________________________________BEGIN APP-->
 
 <body>
+
     <div id="main">
-        test
-        <button onclick="retry()">Reload page</button>
-        <div class="loader"></div>
+           
+        <div class="holder">
+            <div class="preloader">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+       
+        <!--<button onclick="retry()">Reload page</button>-->
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--<script>function redirect() {
@@ -76,19 +55,19 @@
         }
     </script>-->
 
-    <script>function redirect(){
-    $.ajax({
-        type: 'HEAD',
-        url: 'http://localhost:3000/',
-        success: function() {
-            window.location.replace("http://localhost:3000/")
-        },
-        error: function() {
-            redirect()
+    <script>function redirect() {
+            $.ajax({
+                type: 'HEAD',
+                url: 'http://localhost:3000/',
+                success: function () {
+                    window.location.replace("http://localhost:3000/")
+                },
+                error: function () {
+                    redirect()
+                }
+            });
         }
-    });
-    }
-    redirect();
+        redirect();
     </script>
 
 </body>
