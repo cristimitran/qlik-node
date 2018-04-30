@@ -107,56 +107,88 @@ let session = enigma.create({
 //     }
 // })
 
-let document
-
-//update dimension
-session.open()
-    .then((g) => g.openDoc('Helpdesk-test'))
-    .then(function (doc) { document = doc
-        console.log(document)
-        console.log('////////////////////////////////////')
-        document.getDimension({ "qId": "101" })
-        .then((x) => { console.log(x)
-            x.setProperties({
-                "qProp": {
-                    "qInfo": {
-                        "qId": "101",
-                        "qType": "dimension"
-                    },
-                    "qDim": {
-                        "qGrouping": "N",
-                        "qFieldDefs": [
-                            "Date.autoCalendar.Year"
-                        ],
-                        "qFieldLabels": [
-                            "Year2"
-                        ],
-                        "title": "Year3",
-                        "qLabelExpression": ""
-                    },
-                    "qMetaDef": {
-                        "title": "Year555",
-                        "description": "description",
-                        "tags": ["no"]
-                    }
-                }
-    
-            })
-     })
-     return document
+// //update dimension
+async function modify() {
+    try {
+    let doc = await session.open().then((g) => g.openDoc('Helpdesk-test'))
+    let dimension = await doc.getDimension({ "qId": "101" })
+    dimension.setProperties({
+            "qInfo": {
+                "qId": "101",
+                "qType": "dimension"
+            },
+            "qDim": {
+                "qGrouping": "N",
+                "qFieldDefs": [
+                    "Date.autoCalendar.Year"
+                ],
+                "qFieldLabels": [
+                    "Year2"
+                ],
+                "title": "Year3",
+                "qLabelExpression": ""
+            },
+            "qMetaDef": {
+                "title": "Year555",
+                "description": "description",
+                "tags": ["no"]
+            }
     })
-    //.then((y) => console.log(y))
-    .then(() => document.doSave())
+    .then(() => doc.doSave())
     .then(() => session.close())
     .then(() => console.log('success'))
-    .catch((error) => {
-        console.log(error)
-        process.exit(1)
-    })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+modify()
+
+// session.open()
+    // .then((g) => g.openDoc('Helpdesk-test'))
+    // .then(function (doc) { document = doc
+    //     document.getDimension({ "qId": "101" })
+    //     .then((x) => { console.log(x)
+    //         x.setProperties({
+    //             "qProp": {
+    //                 "qInfo": {
+    //                     "qId": "101",
+    //                     "qType": "dimension"
+    //                 },
+    //                 "qDim": {
+    //                     "qGrouping": "N",
+    //                     "qFieldDefs": [
+    //                         "Date.autoCalendar.Year"
+    //                     ],
+    //                     "qFieldLabels": [
+    //                         "Year2"
+    //                     ],
+    //                     "title": "Year3",
+    //                     "qLabelExpression": ""
+    //                 },
+    //                 "qMetaDef": {
+    //                     "title": "Year555",
+    //                     "description": "description",
+    //                     "tags": ["no"]
+    //                 }
+    //             }
+    
+    //         })
+//      })
+//      return document
+//     })
+//     //.then((y) => console.log(y))
+//     .then(() => document.doSave())
+//     .then(() => session.close())
+//     .then(() => console.log('success'))
+//     .catch((error) => {
+//         console.log(error)
+//         process.exit(1)
+//     })
 
 
 
-// //update dimension
+// //update dimension (works)
 // session.open()
 //     .then((g) => g.openDoc('Helpdesk-test'))
 //     .then((doc) => { document = doc })

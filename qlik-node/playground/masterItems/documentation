@@ -1,12 +1,16 @@
 
 //workflow
-1. import items to be created into newList
+1. upload form and parse it to a workbook
+	1.1 transform workbook to json in qlik api format and store it into an object (newList)
 2. getAllInfos list from server	
 3. compare getAllInfos to newList by qId
 	3.1 if item qId already exists, item goes into updateList
 	3.2 if item qId doesn't exist, item goes into createList
 4. update all items in updateList
 5. create all items in createList
+
+upload and parse form:
+https://github.com/SheetJS/js-xlsx/tree/master/demos/server
 
 //dimensions
 https://help.qlik.com/en-US/sense-developer/November2017/Subsystems/Mashups/Content/Create/Visualizations/dimensions.htm
