@@ -110,9 +110,9 @@ let session = enigma.create({
 // //update dimension
 async function modify() {
     try {
-    let doc = await session.open().then((g) => g.openDoc('Helpdesk-test'))
-    let dimension = await doc.getDimension({ "qId": "101" })
-    dimension.setProperties({
+        let doc = await session.open().then((g) => g.openDoc('Helpdesk-test'))
+        let dimension = await doc.getDimension({ "qId": "101" })
+        await dimension.setProperties({
             "qInfo": {
                 "qId": "101",
                 "qType": "dimension"
@@ -133,10 +133,10 @@ async function modify() {
                 "description": "description",
                 "tags": ["no"]
             }
-    })
-    .then(() => doc.doSave())
-    .then(() => session.close())
-    .then(() => console.log('success'))
+        })
+        await doc.doSave()
+        await session.close()
+            .then(() => console.log('success'))
     } catch (err) {
         console.log(err)
     }
@@ -172,7 +172,7 @@ modify()
     //                     "tags": ["no"]
     //                 }
     //             }
-    
+
     //         })
 //      })
 //      return document

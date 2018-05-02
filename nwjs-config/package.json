@@ -1,10 +1,12 @@
 {
-    "name": "app",
+    "name": "Qlik-Get",
     "node-main": "server.js",
     "main": "./resources/index.html",
     "window": {
         "show": true,
-        "toolbar": true
+        "toolbar": true,
+        "width": 635,
+        "height": 496
     },
     "dependencies": {
         "body-parser": "^1.18.2",

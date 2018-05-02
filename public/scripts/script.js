@@ -189,7 +189,7 @@ $(function () {
             contentType: 'application/json',
             url: '/',
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function (data, textStatus, jqXHR) {
                 if (typeof data.redirect == 'string') {
                     // data.redirect contains the string URL to redirect to
                     window.location = data.redirect;
@@ -205,6 +205,11 @@ $(function () {
         });*/
     });
 });
+
+function retry() {
+    //location.reload();
+    window.location.replace("http://localhost:3000/")
+}
 
     // // var strUser;
 

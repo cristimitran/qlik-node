@@ -1,0 +1,18 @@
+Qlik-Get beta 0.2
+author: https://github.com/cristimitran/
+
+version: beta 0.2
+date: 2.05.2018
+added:
+- check for no data when exporting empty file
+- reload button
+- new button templates
+- bootstrap and jquery files are now distribuited with app instead of referenced
+fixed:
+- reduced cluster worker count from number of CPU cores to 2 in hope of improved performance
+- shortcut path should work properly now 
+
+version: beta 0.1
+date: 26.04.2018
+initial launch
+
