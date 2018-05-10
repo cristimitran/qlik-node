@@ -40,7 +40,8 @@ async function getStuff() {
         let layout = []
         let objNames = []
         let objLayouts = []
-        let x
+        let objProps = []
+        
 
         sheetList.qAppObjectList.qItems.forEach(function (value) {
             let newTitle = value.qMeta.title
@@ -55,51 +56,18 @@ async function getStuff() {
         }
 
         for (let i of objNames) {
-            x = await doc.getObject(i)
-            
+            let x = await doc.getObject(i).then((o) => o.getLayout([]))
+            objLayouts.push(x)
         }
-        console.log(x)
-
-        // printSheet.forEach(function (value) {
-        //     objNames.push(value.name)
-        // })
-
-        // objNames.forEach(async function (value) {
-
-        //     objLayouts.push(await doc.getObject(value))
-        //     console.log(objLayouts)
-        // })
-
         
-
+        console.log(JSON.stringify(printSheet, 0, 2))
+        //console.log(JSON.stringify(objLayouts, 0 , 2))
+        //console.log(objLayouts)
         
-
-        //console.log(getLayouts)
-
-
-
-
-        // await printSheet.forEach(async function (value) {
-
-        //     let x = [await doc.getObject(value.name)]
-        //     x.forEach(async function (value) {
-        //         let y = [await value.getLayout()]
-        //         y.forEach(async function (value2) {
-        //             layout.push(value2)
-        //             console.log(layout)
-        //         })
-        //     })
-        // })
-
-
-
-        // doc.getObject('uETyGUP').then((o) => o.getLayout()).then((x) => console.log(x))
-
-        // objects = await printSheet.forEach(function (value) {
-        //      return doc.getObject(value.name)
-        // }).then(console.log(objects))
-
-
+        //console.log(objLayouts[1].qHyperCube.qMeasureInfo)
+       
+    
+        //doc.getObject('uETyGUP').then((o) => o.getLayout()).then((x) => console.log(x))
 
 
 
