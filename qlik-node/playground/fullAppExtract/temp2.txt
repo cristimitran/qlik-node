@@ -1,0 +1,22 @@
+//map 
+//get qFallbackTitle from arrays
+x.layers[0].qHyperCube.qDimensionInfo
+x.layers[0].qHyperCube.qMeasureInfo
+
+//combochart, barchart, scatterplot, pivot-table, table, kpi, piechart, linechart, treemap, gauge
+x.qHyperCube.qDimensionInfo
+x.qHyperCube.qMeasureInfo
+
+//text-image
+x.qHyperCube.qMeasureInfo
+x.title
+x.subtitle
+x.footnote
+x.markdown
+
+//filterpane
+x.qChildList.qItems //get qInfo.qId from array to return listbox object
+
+
+//in printSheet
+for each x.name
