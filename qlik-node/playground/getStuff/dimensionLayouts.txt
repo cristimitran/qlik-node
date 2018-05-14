@@ -1,0 +1,249 @@
+[ { qInfo:
+     { qId: '1921a822-d119-42b3-85ab-650b60304464',
+       qType: 'dimension' },
+    qMeta: { title: 'Product Sub Group', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Product Sub Group' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '96247c2b-e08d-48ae-813d-d30349928998',
+       qType: 'dimension' },
+    qMeta: { title: 'Product Group', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Product Group' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '3ce675bf-3718-42ac-bfe2-86dfadb0c96d',
+       qType: 'dimension' },
+    qMeta: { title: 'YearMonth', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'YearMonth' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '05778c9f-aef0-4078-a577-4cfffd8ebfbe',
+       qType: 'dimension' },
+    qMeta: { title: 'Customer', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Customer' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '34309143-5faf-461d-814d-cb219c38da07',
+       qType: 'dimension' },
+    qMeta: { title: 'Product', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Product' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'ebb29b50-eb4f-4b8e-9bd9-8a6e0cdc5bcc',
+       qType: 'dimension' },
+    qMeta: { title: 'State', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'State' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'b3773eb8-aeb6-4a37-b097-bb0478feff68',
+       qType: 'dimension' },
+    qMeta:
+     { title: 'Basket Product Sub Group Desc',
+       description: '',
+       tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Product Sub Group Desc' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'a1c5c05b-97a5-4f50-889f-58440eddf40f',
+       qType: 'dimension' },
+    qMeta: { title: 'Invoice Date', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Invoice Date' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '50a5fd45-6023-487a-a6d1-f71681f0dafe',
+       qType: 'dimension' },
+    qMeta: { title: 'Month', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Month' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '194ec95b-6cce-4d90-ba53-c099c762f14b',
+       qType: 'dimension' },
+    qMeta: { title: 'Basket Item', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Item' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '2286d6be-43b2-42c2-9630-8dc4ed83fde5',
+       qType: 'dimension' },
+    qMeta: { title: 'Basket Produce Line', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Produce Line' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '5b68675d-30a0-4e5c-9c11-efe9dba2fd1a',
+       qType: 'dimension' },
+    qMeta: { title: 'Regional Sales Mgr', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Regional Sales Mgr' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'af474ee7-aa28-4870-9ffb-790f201c1cc3',
+       qType: 'dimension' },
+    qMeta: { title: 'Basket Product Group Desc', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Product Group Desc' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '8566e158-7f06-4324-9e73-d7688b574821',
+       qType: 'dimension' },
+    qMeta: { title: 'Product Type Desc', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Product Type Desc' },
+    qDimInfos: [ [Object] ] },
+  { qInfo: { qId: 'wAHvmXU', qType: 'dimension' },
+    qMeta: { title: 'Area', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Area' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '007e75d2-452a-42b5-b924-b66576b69a76',
+       qType: 'dimension' },
+    qMeta: { title: 'Product Line', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Product Line' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '5008a373-d201-44ce-82cd-26c1cb95c298',
+       qType: 'dimension' },
+    qMeta: { title: 'Basket Product Desc', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Product Desc' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'ba3afca6-f5a0-4cc9-baae-15ecacb6275b',
+       qType: 'dimension' },
+    qMeta: { title: 'State Name', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'State Name' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '2bcc1ab4-784d-464e-b123-62f240c3b39f',
+       qType: 'dimension' },
+    qMeta: { title: 'Sales Rep', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Sales Rep' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'cf1d8ef8-4020-4f81-b487-514c354875b4',
+       qType: 'dimension' },
+    qMeta: { title: 'Region Name', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Region Name' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: 'e062299e-2690-4b48-8267-a3d25f214abb',
+       qType: 'dimension' },
+    qMeta: { title: 'Color by Metric', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Color by Metric' },
+    qDimInfos: [ [Object] ] },
+  { qInfo: { qId: 'EyEkgTn', qType: 'dimension' },
+    qMeta: { title: 'Budget Period', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Budget Period' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '700c622d-693d-46dd-b538-426edd0175c2',
+       qType: 'dimension' },
+    qMeta: { title: 'Year', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Year' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '5b7dbcd0-1948-42db-b5d5-3d4e6fb36bbf',
+       qType: 'dimension' },
+    qMeta: { title: 'City', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'City' },
+    qDimInfos: [ [Object] ] },
+  { qInfo:
+     { qId: '20c2b97b-1309-4210-b13c-af30b4bee211',
+       qType: 'dimension' },
+    qMeta: { title: 'Basket Product Line Desc', description: '', tags: [] },
+    qDim:
+     { qGrouping: 'N',
+       qFieldDefs: [Array],
+       qFieldLabels: [Array],
+       title: 'Basket Product Line Desc' },
+    qDimInfos: [ [Object] ] } ]
