@@ -39,6 +39,8 @@ else {
     let state = {}
     let slider
 
+
+    //get app list on start-up
     function startUp() {
         return engine.getAppList()
             .then((items) => {
@@ -50,13 +52,11 @@ else {
                 }
                 slider = slider + `</select>`
                 return slider
-                    ;
             })
     }
 
-
-    //get app list on start-up
     startUp().then(() => app.get('/', (req, res) => { res.render('index', { pageTitle: 'Home', welcomeMessage: 'Home', appSelect: slider }) }))
+
 
     //test button for global state
     app.post('/endpoint', function (req, res) {
@@ -69,9 +69,11 @@ else {
         //            console.log(e.name, e.message); //Error, I\'m Evil
         //            process.exit(1)
         //    }
-        res.send(req.body);
+        res.send(req.body)
     })
 
+
+    //export button
     app.post('/', function (req, res) {
         console.log(`exporting for ${state.appName} and ${state.method}`)
         if (state.appName != undefined && state.method != undefined) {
@@ -100,23 +102,26 @@ else {
         }
     })
 
+
     //select app form
     app.post('/testpoint', function (req, res) {
         state.appName = req.body.name
-        console.log(state.appName);
-        res.send(req.body);
+        console.log(state.appName)
+        res.send(req.body)
     })
+
 
     //select method form
     app.post('/method', function (req, res) {
         state.method = req.body.method
-        console.log(state);
-        res.send(req.body);
+        console.log(state)
+        res.send(req.body)
     })
+    
 
     app.listen(port, () => {
-        console.log(`Server is up on port ${port}`);
-    });
+        console.log(`Server is up on port ${port}`)
+    })
 
     // process.on('uncaughtException', function () {
     //     console.log(err);

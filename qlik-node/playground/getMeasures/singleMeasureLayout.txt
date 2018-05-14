@@ -1,0 +1,25 @@
+{
+	"jsonrpc": "2.0",
+	"id": 5,
+	"delta": true,
+	"result": {
+		"qLayout": {
+			"qInfo": {
+				"qId": "huMthCd",
+				"qType": "measure"
+			},
+			"qMeasure": {
+				"qLabel": "Western Margin %",
+				"qDef": "Sum({$ <[Region Name]={\"Western\"}> }[Sales Margin Amount])/Sum({$ <[Region Name]={\"Western\"}> }[Sales Amount])",
+				"qGrouping": "N",
+				"qExpressions": [],
+				"qActiveExpression": 0
+			},
+			"qMeta": {
+				"title": "Western Margin %",
+				"description": "",
+				"tags": []
+			}
+		}
+	}
+}
