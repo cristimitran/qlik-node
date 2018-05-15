@@ -24,9 +24,8 @@ else {
 
     //custom libraries
     const engine = require('./qlik-node/engine-methods')
-    const traverse = require('./qlik-node/traverse-export')
 
-    //config server
+    //server config
     const port = process.env.PORT || 3000
     const app = express()
     hbs.registerPartials(__dirname + '/views/partials')
@@ -44,10 +43,11 @@ else {
     function startUp() {
         return engine.getAppList()
             .then((items) => {
+                //console.log(items)
                 slider = `<select id="app" class="form-control" style="width:250px; background-color:#f7f4ff"><option value="" disabled selected>Please select</option>`;
                 for (key in items) {
                     if (items.hasOwnProperty(key)) {
-                        slider = slider + `<option value="${key}">${key}</option>`
+                        slider = slider + `<option value="${items[key].qDocName.slice(0, -4)}">${items[key].qDocName.slice(0, -4)}</option>`
                     }
                 }
                 slider = slider + `</select>`
@@ -78,7 +78,7 @@ else {
         console.log(`exporting for ${state.appName} and ${state.method}`)
         if (state.appName != undefined && state.method != undefined) {
             engine.callMethod(state.method, state.appName).then((x) => {
-                if (Object.keys(x.Sheets.Fields).length === 0) {
+                if (Object.keys(x.Sheets.Export).length <= 1) {
                     console.log('no data')
                     startUp().then(() => {
                         return res.render('index', {
@@ -90,18 +90,18 @@ else {
                     })
                         .catch((error) => console.log(error))
                 } else {
-                    traverse.clearOut()
+                    //traverse.clearOut()
                     res.setHeader('Content-Disposition', 'attachment; filename="download.xlsx";');
                     res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                     res.end(XLSX.write(x, { type: "buffer", bookType: "xlsx" }));
                 }
+
             })
                 .catch((error) => console.log(error))
         } else {
             res.send(`<script>window.location = "/";</script>`)
         }
     })
-
 
     //select app form
     app.post('/testpoint', function (req, res) {
@@ -117,7 +117,7 @@ else {
         console.log(state)
         res.send(req.body)
     })
-    
+
 
     app.listen(port, () => {
         console.log(`Server is up on port ${port}`)

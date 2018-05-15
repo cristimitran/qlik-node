@@ -6,35 +6,41 @@ const schema = require('enigma.js/schemas/12.20.0.json')
 const XLSX = require('xlsx')
 
 
-let session = enigma.create({
-    schema,
-    url: `ws://localhost:4848/app/Consumer Sales`,
-    createSocket: url => new WebSocket(url),
-})
-
-
-const sheetListRequest = {
-    qInfo: {
-        qType: "SheetList"
-    },
-    qAppObjectListDef: {
-        qType: "sheet",
-        qData: {
-            title: "/qMetaDef/title",
-            description: "/qMetaDef/description",
-            thumbnail: "/thumbnail",
-            cells: "/cells",
-            rank: "/rank",
-            columns: "/columns",
-            rows: "/rows"
-        }
-    }
+function enigmaEngine(appName) {
+    return enigma.create({
+        schema,
+        url: `ws://localhost:4848/app/${appName}`,
+        createSocket: url => new WebSocket(url),
+    })
 }
 
 
-async function getStuff() {
+
+
+
+async function getStuff(appName) {
     try {
-        let doc = await session.open().then((g) => g.openDoc('Consumer Sales'))
+
+        const sheetListRequest = {
+            qInfo: {
+                qType: "SheetList"
+            },
+            qAppObjectListDef: {
+                qType: "sheet",
+                qData: {
+                    title: "/qMetaDef/title",
+                    description: "/qMetaDef/description",
+                    thumbnail: "/thumbnail",
+                    cells: "/cells",
+                    rank: "/rank",
+                    columns: "/columns",
+                    rows: "/rows"
+                }
+            }
+        }
+
+        let session = enigmaEngine(appName)
+        let doc = await session.open().then((g) => g.openDoc(`${appName}`))
         let sheetList = await doc.createObject(sheetListRequest).then(object => object.getLayout())
 
         let printSheet = []
@@ -71,26 +77,32 @@ async function getStuff() {
         // }
 
 
-
         let num = 1
         for (let i of objLayouts) {
-            for (let j of printSheet) {
 
-                let getDimension = function () {
-                    let str = ""
+            let getDimension = function () {
+                let str = ""
+
+                if (i.hasOwnProperty('qHyperCube')) {
                     for (let j of i.qHyperCube.qDimensionInfo) {
                         str += j.qFallbackTitle + ", "
                     }
                     return str.slice(0, -2)
                 }
+            }
 
-                let getMeasure = function () {
-                    let str = ""
+            let getMeasure = function () {
+                let str = ""
+                if (i.hasOwnProperty('qHyperCube')) {
                     for (let j of i.qHyperCube.qMeasureInfo) {
                         str += j.qFallbackTitle + ", "
                     }
                     return str.slice(0, -2)
                 }
+            }
+            for (let j of printSheet) {
+
+
 
                 if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
                     result.push({
@@ -102,14 +114,16 @@ async function getStuff() {
             }
         }
 
+
+
         //console.log(result)
 
-        let ws = XLSX.utils.json_to_sheet(result)
-        let wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "People")
-        XLSX.writeFile(wb, "test.xlsx")
+        // let ws = XLSX.utils.json_to_sheet(result)
+        // let wb = XLSX.utils.book_new()
+        // XLSX.utils.book_append_sheet(wb, ws, "People")
+        // XLSX.writeFile(wb, "test.xlsx")
         session.close()
-
+        return result
         // console.log(printSheet)
         //console.log(objLayouts)
         //doc.getObject('TAmQxU').then((o) => o.getLayout()).then((x) => console.log(x.qHyperCube.qMeasureInfo))
@@ -122,7 +136,7 @@ async function getStuff() {
     }
 }
 
-getStuff()
+getStuff('SAP Accelerator')//.then((x) => console.log(x))
 
 
 

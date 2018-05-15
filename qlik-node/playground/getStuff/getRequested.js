@@ -90,12 +90,13 @@ async function getDimensions(appName) {
             ++num
         }
 
-        let ws = XLSX.utils.json_to_sheet(printDimensions)
-        let wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Measures")
-        XLSX.writeFile(wb, "test.xlsx")
-        session.close()
+        // let ws = XLSX.utils.json_to_sheet(printDimensions)
+        // let wb = XLSX.utils.book_new()
+        // XLSX.utils.book_append_sheet(wb, ws, "Measures")
+        // XLSX.writeFile(wb, "test.xlsx")
 
+        session.close()
+        return printDimensions
 
     } catch (error) {
         console.log(error)
@@ -160,12 +161,8 @@ async function getMeasures(appName) {
             ++num
         }
 
-        let ws = XLSX.utils.json_to_sheet(printMeasures)
-        let wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Measures")
-        XLSX.writeFile(wb, "test.xlsx")
         session.close()
-
+        return printMeasures
 
     } catch (error) {
         console.log(error)
@@ -205,7 +202,6 @@ async function getSheetList(appName) {
 
         let sheetIds = []
 
-        let num = 1
         for (let i of allSheets) {
             sheetIds.push({ qId: i.qInfo.qId })
         }
@@ -220,27 +216,20 @@ async function getSheetList(appName) {
         let printSheet = []
         let num = 1
         for (let i of sheetLayouts) {
-            function countObjects () {
+            function countObjects() {
                 let counter = 0
                 for (let j of i.cells) {
-                   counter += 1
+                    counter += 1
                 }
                 return counter
             }
 
-            printSheet.push({num: num, title: i.qMeta.title, description: i.qMeta.description, nr_of_objects: countObjects()})
+            printSheet.push({ num: num, title: i.qMeta.title, description: i.qMeta.description, nr_of_objects: countObjects() })
             ++num
         }
 
-        console.log(printSheet)
-
-        // let ws = XLSX.utils.json_to_sheet(printSheet)
-        // let wb = XLSX.utils.book_new()
-        // XLSX.utils.book_append_sheet(wb, ws, "Measures")
-        // XLSX.writeFile(wb, "test.xlsx")
-        // session.close()
-
         session.close()
+        return printSheet
     } catch (error) {
         console.log(error)
         process.exit(1)
@@ -289,31 +278,84 @@ async function getVariablesList(appName) {
         let printVariables = []
         let num = 1
         for (let i of variablesProperties) {
-            function countObjects () {
-                let counter = 0
-                for (let j of i.cells) {
-                   counter += 1
+            let getTags = function () {
+                let str = ""
+                if (i.tags != undefined) {
+                    for (let j of i.tags) {
+                        str += j + ", "
+                    }
+                    return str.slice(0, -2)
+                } else {
+                    return ""
                 }
-                return counter
             }
 
-            printVariables.push({num: num, name: i.qName, definition: i.qDefinition, qId: i.qInfo.qId, comment: i.qComment})
+            let getComments = function () {
+                let str = ""
+                if (i.comment != undefined) {
+                    return i.comment
+                } else {
+                    return ""
+                }
+            }
+
+            printVariables.push({ num: num, name: i.qName, definition: i.qDefinition, qId: i.qInfo.qId, comment: getComments(), tags: getTags() })
             ++num
         }
 
-        console.log(printVariables)
-
-        // let ws = XLSX.utils.json_to_sheet(printSheet)
-        // let wb = XLSX.utils.book_new()
-        // XLSX.utils.book_append_sheet(wb, ws, "Measures")
-        // XLSX.writeFile(wb, "test.xlsx")
-        // session.close()
-
         session.close()
+        return printVariables
     } catch (error) {
         console.log(error)
         process.exit(1)
     }
 }
 
-getVariablesList('SAP Accelerator')
+
+async function getFieldList(appName) {
+    try {
+
+        const fieldList = {
+            qInfo: {
+                qType: "FieldList"
+            },
+            qFieldListDef: {
+                qShowSystem: false,
+                qShowHidden: false,
+                qShowDerivedFields: true,
+                qShowSemantic: true,
+                qShowSrcTables: true,
+                qShowImplicit: true
+            }
+        }
+
+        let session = enigmaEngine(appName)
+
+        let doc = await session.open().then((g) => g.openDoc(`${appName}`))
+        let layout = await doc.createObject(fieldList).then(object => object.getLayout())
+        let allFields = layout.qFieldList.qItems
+
+        let printFields = []
+
+        let num = 1
+        for (let i of allFields) {
+            let getTags = function () {
+                let str = ""
+                for (let j of i.qTags) {
+                    str += j + ", "
+                }
+                return str.slice(0, -2)
+            }
+
+            printFields.push({ num: num, name: i.qName, tags: getTags() })
+            ++num
+        }
+
+        session.close()
+        return printFields
+
+    } catch (error) {
+        console.log(error)
+        process.exit(1)
+    }
+}
