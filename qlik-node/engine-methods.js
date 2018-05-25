@@ -427,6 +427,8 @@ async function getEverything(appName) {
             objLayouts.push(x)
         }
 
+        console.log(objLayouts)
+
         let num = 1
         for (let i of objLayouts) {
 
@@ -435,9 +437,9 @@ async function getEverything(appName) {
 
                 if (i.hasOwnProperty('qHyperCube')) {
                     for (let j of i.qHyperCube.qDimensionInfo) {
-                        str += j.qFallbackTitle + ", "
+                        str += j.qFallbackTitle + "|| "
                     }
-                    return str.slice(0, -2)
+                    return str.slice(0, -3)
                 }
             }
 
@@ -445,9 +447,9 @@ async function getEverything(appName) {
                 let str = ""
                 if (i.hasOwnProperty('qHyperCube')) {
                     for (let j of i.qHyperCube.qMeasureInfo) {
-                        str += j.qFallbackTitle + ", "
+                        str += j.qFallbackTitle + "|| "
                     }
-                    return str.slice(0, -2)
+                    return str.slice(0, -3)
                 }
             }
 

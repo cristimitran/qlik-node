@@ -64,10 +64,13 @@ async function getStuff(appName) {
         }
 
         for (let i of objNames) {
-            let x = await doc.getObject(i).then((o) => o.getLayout([]))
+            let x = await doc.getObject(i).then((o) => o.getEffectiveProperties())
             objLayouts.push(x)
         }
 
+
+        console.log(objLayouts)
+        console.log('***********************************************************')
         // for (let i of objLayouts) {
         //     if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane') {
         //         for(let j of i.qHyperCube.qDimensionInfo) {
@@ -80,24 +83,24 @@ async function getStuff(appName) {
         let num = 1
         for (let i of objLayouts) {
 
-            let getDimension = function () {
-                let str = ""
+            // let getDimension = function () {
+            //     let str = ""
 
-                if (i.hasOwnProperty('qHyperCube')) {
-                    for (let j of i.qHyperCube.qDimensionInfo) {
-                        str += j.qFallbackTitle + ", "
-                    }
-                    return str.slice(0, -2)
-                }
-            }
+            //     if (i.hasOwnProperty('qHyperCube')) {
+            //         for (let j of i.qHyperCube.qDimensions) {
+            //             str += j.qFallbackTitle + ", "
+            //         }
+            //         return str.slice(0, -2)
+            //     }
+            // }
 
             let getMeasure = function () {
                 let str = ""
-                if (i.hasOwnProperty('qHyperCube')) {
-                    for (let j of i.qHyperCube.qMeasureInfo) {
-                        str += j.qFallbackTitle + ", "
+                if (i.hasOwnProperty('qHyperCubeDef')) {
+                    for (let j of i.qHyperCubeDef.qMeasures) {
+                        str += j.qDef.qDef + "|| "
                     }
-                    return str.slice(0, -2)
+                    return str
                 }
             }
             for (let j of printSheet) {
@@ -106,7 +109,7 @@ async function getStuff(appName) {
 
                 if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
                     result.push({
-                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, dimension: getDimension(), measure: getMeasure(),
+                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, /*dimension: getDimension(),*/ measure: getMeasure(),
                         title: i.title, subtitle: i.subtitle, footnote: i.footnote
                     })
                     num = num + 1
@@ -116,14 +119,14 @@ async function getStuff(appName) {
 
 
 
-        //console.log(result)
+        console.log(result)
 
         // let ws = XLSX.utils.json_to_sheet(result)
         // let wb = XLSX.utils.book_new()
         // XLSX.utils.book_append_sheet(wb, ws, "People")
         // XLSX.writeFile(wb, "test.xlsx")
         session.close()
-        return result
+        //return result
         // console.log(printSheet)
         //console.log(objLayouts)
         //doc.getObject('TAmQxU').then((o) => o.getLayout()).then((x) => console.log(x.qHyperCube.qMeasureInfo))
@@ -136,7 +139,7 @@ async function getStuff(appName) {
     }
 }
 
-getStuff('SAP Accelerator')//.then((x) => console.log(x))
+getStuff('Helpdesk-test')//.then((x) => console.log(x))
 
 
 
