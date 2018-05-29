@@ -14,8 +14,13 @@ function enigmaEngine(appName) {
     })
 }
 
-
-
+function* gen(input){
+    let i = 0
+    while(i<input.length) {
+        yield input[i]
+        i++
+    }
+}
 
 
 async function getStuff(appName) {
@@ -43,14 +48,8 @@ async function getStuff(appName) {
         let doc = await session.open().then((g) => g.openDoc(`${appName}`))
         let sheetList = await doc.createObject(sheetListRequest).then(object => object.getLayout())
 
+
         let printSheet = []
-        let layout = []
-        let objNames = []
-        let objLayouts = []
-        let objProps = []
-        let result = []
-
-
         sheetList.qAppObjectList.qItems.forEach(function (value) {
             let newTitle = value.qMeta.title
             value.qData.cells.forEach(function (value) {
@@ -59,18 +58,19 @@ async function getStuff(appName) {
             })
         })
 
+        let objNames = []
         for (let i of printSheet) {
             objNames.push(i.name)
         }
 
-        for (let i of objNames) {
+        let objLayouts = []
+        for (let i of gen(objNames)) {
+            // console.log(i)
             let x = await doc.getObject(i).then((o) => o.getEffectiveProperties())
             objLayouts.push(x)
         }
 
 
-        console.log(objLayouts)
-        console.log('***********************************************************')
         // for (let i of objLayouts) {
         //     if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane') {
         //         for(let j of i.qHyperCube.qDimensionInfo) {
@@ -79,37 +79,68 @@ async function getStuff(appName) {
         //     }
         // }
 
-
+        let result = []
         let num = 1
-        for (let i of objLayouts) {
+        for (let i of gen(objLayouts)) {
 
-            // let getDimension = function () {
-            //     let str = ""
+            let getDimensions = async function () {
+                let str = ""
+                if (i.hasOwnProperty('qHyperCubeDef')) {
+                    for (let j of i.qHyperCubeDef.qDimensions) {
+                        //console.log(j)
+                        if (j.hasOwnProperty('qLibraryId')) {
+                            let a = await doc.getDimension(j.qLibraryId).then((b) => b.getLayout())
+                            //console.log(a.qDim.qFieldDefs)
 
-            //     if (i.hasOwnProperty('qHyperCube')) {
-            //         for (let j of i.qHyperCube.qDimensions) {
-            //             str += j.qFallbackTitle + ", "
-            //         }
-            //         return str.slice(0, -2)
-            //     }
-            // }
+                            for (let k in a.qDim.qFieldDefs) {
+                                //console.log(a.qDim.qFieldDefs[k])
+                                str += a.qDim.qFieldDefs[k] + "|| "
+                            }
+                            //str += a.qDimension.qDef + "|| "
+                        }
 
-            let getMeasure = function () {
+                        if (j.qDef.hasOwnProperty('qFieldDefs')) {
+                            //console.log(j.qDef.qFieldDefs)
+                            for (let k in j.qDef.qFieldDefs) {
+                                //console.log(j.qDef.qFieldDefs[k])
+                                str += j.qDef.qFieldDefs[k] + "|| "
+                            }
+                        }
+
+                    }
+                    return str.slice(0, -1)
+                }
+            }
+
+            let getMeasures = async function () {
                 let str = ""
                 if (i.hasOwnProperty('qHyperCubeDef')) {
                     for (let j of i.qHyperCubeDef.qMeasures) {
-                        str += j.qDef.qDef + "|| "
+                        if (j.hasOwnProperty('qLibraryId')) {
+                            let a = await doc.getMeasure(j.qLibraryId).then((b) => b.getLayout())
+                            //console.log(a.qMeasure.qDef)
+                            str += a.qMeasure.qDef + "|| "
+
+                        }
+
+                        if (j.qDef.hasOwnProperty('qDef')) {
+                            str += j.qDef.qDef + "|| "
+                        }
                     }
-                    return str
                 }
+
+                return str.slice(0, -1)
             }
+
+
+
             for (let j of printSheet) {
 
 
 
-                if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
+                if (/*i.qInfo.qType !== 'map' && */i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
                     result.push({
-                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, /*dimension: getDimension(),*/ measure: getMeasure(),
+                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, dimension: await getDimensions(), measure: await getMeasures(),
                         title: i.title, subtitle: i.subtitle, footnote: i.footnote
                     })
                     num = num + 1
@@ -139,7 +170,8 @@ async function getStuff(appName) {
     }
 }
 
-getStuff('Helpdesk-test')//.then((x) => console.log(x))
+getStuff('Consumer Sales')
+//getStuff('Helpdesk-test')//.then((x) => console.log(x))
 
 
 

@@ -377,6 +377,15 @@ async function getFieldList(appName) {
 }
 
 
+function* gen(input){
+    let i = 0
+    while(i<input.length) {
+        yield input[i]
+        i++
+    }
+        
+}
+
 async function getEverything(appName) {
     try {
 
@@ -418,46 +427,91 @@ async function getEverything(appName) {
             })
         })
 
+
         for (let i of printSheet) {
             objNames.push(i.name)
         }
 
-        for (let i of objNames) {
-            let x = await doc.getObject(i).then((o) => o.getLayout([]))
+    
+
+        for (let i of gen(objNames)) {
+            console.log(i)
+            let x = await doc.getObject(i).then((o) => o.getEffectiveProperties())
             objLayouts.push(x)
         }
 
-        console.log(objLayouts)
+     
+
+
+        // for (let i of objLayouts) {
+        //     if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane') {
+        //         for(let j of i.qHyperCube.qDimensionInfo) {
+        //             console.log(j.qFallbackTitle)
+        //         }
+        //     }
+        // }
+
 
         let num = 1
-        for (let i of objLayouts) {
+        for (let i of gen(objLayouts)) {
 
-            let getDimension = function () {
+            let getDimensions = async function () {
                 let str = ""
+                if (i.hasOwnProperty('qHyperCubeDef')) {
+                    for (let j of i.qHyperCubeDef.qDimensions) {
+                        //console.log(j)
+                        if (j.hasOwnProperty('qLibraryId')) {
+                            let a = await doc.getDimension(j.qLibraryId).then((b) => b.getLayout())
+                            //console.log(a.qDim.qFieldDefs)
+                            for (let k in a.qDim.qFieldDefs) {
+                                //console.log(a.qDim.qFieldDefs[k])
+                                str += a.qDim.qFieldDefs[k] + "|| "
+                            }
+                            //str += a.qDimension.qDef + "|| "
+                        }
 
-                if (i.hasOwnProperty('qHyperCube')) {
-                    for (let j of i.qHyperCube.qDimensionInfo) {
-                        str += j.qFallbackTitle + "|| "
+                        if (j.qDef.hasOwnProperty('qFieldDefs')) {
+                            //console.log(j.qDef.qFieldDefs)
+                            for (let k in j.qDef.qFieldDefs) {
+                                //console.log(j.qDef.qFieldDefs[k])
+                                str += j.qDef.qFieldDefs[k] + "|| "
+                            }
+                        }
+
                     }
-                    return str.slice(0, -3)
+                    return str.slice(0, -1)
                 }
             }
 
-            let getMeasure = function () {
+            let getMeasures = async function () {
                 let str = ""
-                if (i.hasOwnProperty('qHyperCube')) {
-                    for (let j of i.qHyperCube.qMeasureInfo) {
-                        str += j.qFallbackTitle + "|| "
+                if (i.hasOwnProperty('qHyperCubeDef')) {
+                    for (let j of i.qHyperCubeDef.qMeasures) {
+                        if (j.hasOwnProperty('qLibraryId')) {
+                            let a = await doc.getMeasure(j.qLibraryId).then((b) => b.getLayout())
+                            //console.log(a.qMeasure.qDef)
+                            str += a.qMeasure.qDef + "|| "
+
+                        }
+
+                        if (j.qDef.hasOwnProperty('qDef')) {
+                            str += j.qDef.qDef + "|| "
+                        }
                     }
-                    return str.slice(0, -3)
                 }
+
+                return str.slice(0, -1)
             }
+
+
 
             for (let j of printSheet) {
 
+
+
                 if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
                     result.push({
-                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, dimension: getDimension(), measure: getMeasure(),
+                        nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, dimension: await getDimensions(), measure: await getMeasures(),
                         title: i.title, subtitle: i.subtitle, footnote: i.footnote
                     })
                     num = num + 1
@@ -465,8 +519,18 @@ async function getEverything(appName) {
             }
         }
 
+        // let ws = XLSX.utils.json_to_sheet(result)
+        // let wb = XLSX.utils.book_new()
+        // XLSX.utils.book_append_sheet(wb, ws, "People")
+        // XLSX.writeFile(wb, "test.xlsx")
         session.close()
         return result
+        //return result
+        // console.log(printSheet)
+        //console.log(objLayouts)
+        //doc.getObject('TAmQxU').then((o) => o.getLayout()).then((x) => console.log(x.qHyperCube.qMeasureInfo))
+
+
 
     } catch (error) {
         console.log(error)
@@ -491,3 +555,102 @@ module.exports = {
     getAppList,
     callMethod
 }
+
+
+
+// async function getEverything(appName) {
+//     try {
+
+//         const sheetListRequest = {
+//             qInfo: {
+//                 qType: "SheetList"
+//             },
+//             qAppObjectListDef: {
+//                 qType: "sheet",
+//                 qData: {
+//                     title: "/qMetaDef/title",
+//                     description: "/qMetaDef/description",
+//                     thumbnail: "/thumbnail",
+//                     cells: "/cells",
+//                     rank: "/rank",
+//                     columns: "/columns",
+//                     rows: "/rows"
+//                 }
+//             }
+//         }
+
+//         let session = enigmaEngine(appName)
+//         let doc = await session.open().then((g) => g.openDoc(`${appName}`))
+//         let sheetList = await doc.createObject(sheetListRequest).then(object => object.getLayout())
+
+//         let printSheet = []
+//         let layout = []
+//         let objNames = []
+//         let objLayouts = []
+//         let objProps = []
+//         let result = []
+
+
+//         sheetList.qAppObjectList.qItems.forEach(function (value) {
+//             let newTitle = value.qMeta.title
+//             value.qData.cells.forEach(function (value) {
+//                 value.sheetTitle = newTitle
+//                 printSheet.push(value)
+//             })
+//         })
+
+//         for (let i of printSheet) {
+//             objNames.push(i.name)
+//         }
+
+//         for (let i of objNames) {
+//             let x = await doc.getObject(i).then((o) => o.getLayout([]))
+//             objLayouts.push(x)
+//         }
+
+//         console.log(objLayouts)
+
+//         let num = 1
+//         for (let i of objLayouts) {
+
+//             let getDimension = function () {
+//                 let str = ""
+
+//                 if (i.hasOwnProperty('qHyperCube')) {
+//                     for (let j of i.qHyperCube.qDimensionInfo) {
+//                         str += j.qFallbackTitle + "|| "
+//                     }
+//                     return str.slice(0, -3)
+//                 }
+//             }
+
+//             let getMeasure = function () {
+//                 let str = ""
+//                 if (i.hasOwnProperty('qHyperCube')) {
+//                     for (let j of i.qHyperCube.qMeasureInfo) {
+//                         str += j.qFallbackTitle + "|| "
+//                     }
+//                     return str.slice(0, -3)
+//                 }
+//             }
+
+//             for (let j of printSheet) {
+
+//                 if (i.qInfo.qType !== 'map' && i.qInfo.qType !== 'filterpane' && i.qInfo.qId === j.name) {
+//                     result.push({
+//                         nr: num, sheet: j.sheetTitle, qID: i.qInfo.qId, qType: i.qInfo.qType, dimension: getDimension(), measure: getMeasure(),
+//                         title: i.title, subtitle: i.subtitle, footnote: i.footnote
+//                     })
+//                     num = num + 1
+//                 }
+//             }
+//         }
+
+//         session.close()
+//         return result
+
+//     } catch (error) {
+//         console.log(error)
+//         process.exit(1)
+//     }
+// }
