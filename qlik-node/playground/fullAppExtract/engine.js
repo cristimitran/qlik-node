@@ -126,6 +126,7 @@ async function getStuff(appName) {
                         if (j.qDef.hasOwnProperty('qDef')) {
                             str += j.qDef.qDef + "|| "
                         }
+
                     }
                 }
 
